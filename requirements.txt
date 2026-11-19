@@ -1,0 +1,4 @@
+# Discord とのやりとり（同期の本体もコマンドも）に使う。aiohttp は discord.py と一緒に入り、Neplector を読むのにも使う（ADR 0010）
+discord.py==2.7.1
+# 名簿の格子の画像を作る（ADR 0014 判断2）
+Pillow==13.0.0

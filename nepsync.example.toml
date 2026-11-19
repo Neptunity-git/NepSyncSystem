@@ -1,0 +1,26 @@
+# これをコピーして data/nepsync.toml を作る
+
+guild_a = "000000000000000000"     # 同期の元のサーバー
+guild_b = "000000000000000000"     # 相手のサーバー
+category_names = ["カテゴリの名前"]  # 両方のサーバーに、同じ名前で作っておく
+
+# a_to_b：a から b へだけ流す。a には書かない。b を Neplector が読まないあいだは、こちら
+# both：双方向
+direction = "a_to_b"
+priority = "a"                     # 双方向で、両方が同じ項目を変えたときに勝つ側
+
+sync_messages = true
+sync_structure = true
+sync_reactions = true
+avatar_emoji_days = 90             # アイコンの絵文字を、この日数表示されなければ消す（要るときにまた作る）
+slash_commands = true              # /nepsync-members（これだけ Discord と常時接続する。知らせは受けない）
+sync_polls = true
+sync_pins = true                   # ピン留めの付け外しを写す。bot に「メッセージのピン留め」の権限が要る
+allow_delete = true                # 元のチャンネルが消されたら、写しも消す
+delete_limit_per_hour = 3          # これを超えたら止めて確認を待つ
+delay_mark_minutes = 10            # これより遅れた発言に、元の時刻の印を付ける
+max_upload_bytes = 20971520        # これより大きい添付は送らず、そう書く。ブーストされても上げない
+
+# 告知チャンネルの組（[a の ID, b の ID]）。右クリックの「相手のサーバーにも出す」で選んだものだけ写す
+announcements = []
+announce_ping_roles = ["member"]   # 告知の中で、相手のサーバーでも通知を鳴らすロールの名前（両方に同じ名前で1つずつ）

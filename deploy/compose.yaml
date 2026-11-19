@@ -1,0 +1,24 @@
+# ~/service/compose.yaml（VM-2 `neptunity-services`。Neplector の docs/design/services-vm.md のひな形から。ADR 0013）
+# 外に公開しない（bot は Discord と Neplector へ出ていくだけで、入ってくるつながりは要らない）ので tunnel は無い
+name: nepsync
+services:
+  app:
+    build:
+      context: ./src
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped         # VM の再起動のあと、自動で上がる。落ちても上がる
+    env_file: .env                  # 秘密の値（DISCORD_BOT_TOKEN・NEPLECTOR_*）。権限 600、コミットしない
+    environment:
+      - TZ=Asia/Tokyo               # ログの時刻を日本時間に（python の slim には時刻の表がある）
+    volumes:
+      - ./data:/app/data            # nepsync.toml・nepsync.db・nepsync.lock。残すデータはここだけ
+    # 上限（Windows では 20MB ほど。VM で docker stats を見てから直す）
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    pids_limit: 128
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
